@@ -10,3 +10,4 @@ Working through SICP.
   * [ebook versions](http://sicpebook.wordpress.com/)
   * [ePub](https://github.com/downloads/ieure/sicp/sicp.epub)
 * [Online tutor](http://icampustutor.csail.mit.edu/6.001-public/) (free registration required)
+* [Schedule](https://github.com/dtchepak/sicp-reading/wiki/Schedule)
