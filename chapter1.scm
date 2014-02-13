@@ -134,3 +134,19 @@
 (define (sqrt2 x) (sqrt-iter2 0 1.0 x))
 
 ; This passes both 1e100 and 0.0001 tests.
+
+;;Exercise 1.8
+(define (cube-root x)
+  (define (improve y)
+    (/ (+
+         (/ x (square y))
+         (* 2 y))
+       3))
+  (define (cube-root-iter last-guess this-guess)
+    (if (good-enough?? last-guess this-guess)
+      this-guess
+      (cube-root-iter this-guess (improve this-guess))))
+  (cube-root-iter 0 1.0))
+
+;1.1.8 Procedures as black-box abstractions
+;
