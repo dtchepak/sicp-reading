@@ -164,18 +164,68 @@
 ; - get access to bound variables of outer scope (*lexical scoping*)
 
 ;;Lecture 1B
+; linear: O(n)
 ; linearly recursive (space O(n), time O(n)):
 (define (fib n)
   (if (< n 2) n
       (+ (fib (-1+ n)) (fib (- n 2)))))
-; iterative (space O(1), time O(n)):
+; linearly iterative (space O(1), time O(n)):
 (define (fibi n)
   (define (fib-iter count last2 last1)
     (if (= count n) last1
         (fib-iter (1+ count) last1 (+ last2 last1))))
   (fib-iter 0 1 0))
 
+; towers of hanoi
+; TODO
+
 ;1.2 Procedures and processes
+; recursive process: 
+; - expansion followed by contraction (in space)
+; - characterised by chain of deferred operations.
+; - have to keep track of operations yet to be performed
+; - linear recursive: space grows proportionally to n
+; - maintains "hidden" info on "where the process is". can't 
+;   stop then resume computation as part of each step is deferred
+; iterative process: 
+; - constant space
+; - keeps track of state at each step; rules describe transitions
+; - linear iterative: number of steps (time) grows proportionally to n
+; - if we stop computation midway, could resume with current state.
+;   (no additional "hidden" information about the state of the comp)
+; recursive process vs. recursive procedure
+; - recursive procedure: syntactic fact that proc refers to itself
+; - recursive process: how the process evolves; not syntax based
+
+;;Exercise 1.9:
+; 1) (define (+ a b) (if (= a 0) b (inc (+ (dec a) b))))
+; 2) (define (+ a b) (if (= a 0) b (+ (dec a) (inc b))))
+; For 1:
+; (+ 4 5)
+; = (if (= 4 0) 5 (inc (+ (dec 4) 5)))
+; = (if #f 5 (inc (+ 3 5)))
+; = (inc (+ 3 5))
+; = (inc (inc (+ 2 5))
+; = (inc (inc (inc (+ 1 5))))
+; = (inc (inc (inc (inc (+ 0 5)))))
+; = (inc (inc (inc (inc 5))))
+; = (inc (inc (inc 6)))
+; = (inc (inc 7))
+; = (inc 8)
+; = 9
+; Space grows with a, so linearly recursive. (With each incr in a, 
+; one extra deferred comp has to be maintained)
+; For 2:
+; (+ 4 5)
+; = (if (= 4 0) 5 (+ (dec 4) (inc 5)))
+; = (+ (dec 4) (inc 5))
+; = (+ 3 6)
+; = (+ 2 7)
+; = (+ 1 8)
+; = (+ 0 9)
+; = 9
+; Space is constant, so linearly iterative. (Each incr in a adds an
+; extra step, but no extra state between steps)
+
+;;Exercise 1.10:
 ;
-;
-; Param names must be local to proc.
