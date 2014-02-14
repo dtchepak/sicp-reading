@@ -149,4 +149,33 @@
   (cube-root-iter 0 1.0))
 
 ;1.1.8 Procedures as black-box abstractions
+; Procedural abstraction 
+; - a caller should not know how a procedure is implemented to be 
+;   able to use it. (proc is black box)
+; - to keep black box, parameter names must be local to proc body
+;   * a proc *binds* its formal params - bound variable.
+;   * unbound variable is *free*.
+;   * set of expressions for which binding defines name is *scope* of name
+;   * meaning of a proc is independent from names of its bound variables
+;     (not from free variables; which depend on external scope)
 ;
+; Block structure
+; - internal definitions to proc
+; - get access to bound variables of outer scope (*lexical scoping*)
+
+;;Lecture 1B
+; linearly recursive (space O(n), time O(n)):
+(define (fib n)
+  (if (< n 2) n
+      (+ (fib (-1+ n)) (fib (- n 2)))))
+; iterative (space O(1), time O(n)):
+(define (fibi n)
+  (define (fib-iter count last2 last1)
+    (if (= count n) last1
+        (fib-iter (1+ count) last1 (+ last2 last1))))
+  (fib-iter 0 1 0))
+
+;1.2 Procedures and processes
+;
+;
+; Param names must be local to proc.
