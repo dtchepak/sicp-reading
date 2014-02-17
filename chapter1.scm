@@ -228,4 +228,56 @@
 ; extra step, but no extra state between steps)
 
 ;;Exercise 1.10:
+(define (A x y)
+  (cond ((= y 0) 0)
+        ((= x 0) (* 2 y))
+        ((= y 1) 2)
+        (else (A (- x 1) (A x (- y 1))))))
+(define (f n) (A 0 n))
+(define (g n) (A 1 n))
+(define (h n) (A 2 n))
+(define (k n) (* 5 n n))
+; (f n) = (A 0 n)
+;       = (* 2 y)
+; So f(n) = 2y
+; 
+; (g 0) = 0
+; (g 1) = 2
+; (g n) = (A 0 (A 1 (- n 1)))
+;       = (f (g (- n 1)))
+;       = (* 2 (g (- n 1)))
+; So g(n) = 2g(n-1) for n >= 2
+; g(3) = 2g(2)
+;      = 2(2(g 1))
+;      = 2*2*2 = 2^3
+; So g(n) = 2^n if n>0, else 0
 ;
+; (h 0) = (A 2 0) = 0
+; (h 1) = (A 2 1) = 2
+; (h n)
+;   = (A 2 n)
+;   = (A 1 (A 2 (- n 1)))
+;   = g (A 2 (- n 1))
+;   = g (h (- n 1))
+; If (n-1) >1
+;   = g (g (h (- n 2))) 
+; (h 2) = g (h 1)
+;       = g (2)
+;       = 2^2
+; (h 3) = 2^2^2
+; So (h n) = 2^2^...^2 (n times)
+
+; k(n) = 5n^2
+
+; (A 1 10) = g(10) = 2^10 = 1024
+; By substitution model:
+; = (A (- 1 1) (A 1 (- 10 1)))
+; = (A 0 (A 1 9))
+; = (A 0 (A 0 (A 1 8)))
+; = (A 0 (A 0 (A 0 (A 1 7))))
+; = ...
+; = (A 0 (A 0 (... (A 1 1))))
+; = (A 0 (A 0 (... (A 0 2)))
+
+; (A 2 4) = h(4) = 2^2^2^2 = 65536
+; (A 3 3) = 
