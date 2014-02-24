@@ -288,3 +288,37 @@
 ;         = h 4
 ;         = 65536 (from (A 2 4))
 
+;1.2.2 Tree recursion
+; e.g. fib
+; Steps grow exponentially
+; Space grows linearly
+
+;;Exercise 1.11
+
+(define (ex1.11r n)
+    (if (< n 3) n
+        (+ (ex1.11r (- n 1))
+           (* 2 (ex1.11r (- n 2)))
+           (* 3 (ex1.11r (- n 3))))))
+; (ex1.11r 3)
+; = (+ (ex1.11r 2) (* 2 (ex1.11r 1)) (* 3 (ex1.11r 0)))
+; = (+ 2 2 0)
+; = 4
+
+; f(0) = 0
+; f(1) = 1
+; f(2) = 2
+; f(3) = f(2) + 2f(1) + 3f(0)
+; f(4) = f(3) + 2f(2) + 3f(1)
+
+(define (ex1.11i n) 
+    (define (next a b c) (+ a (* 2 b) (* 3 c)))
+    (define (step count x y z)
+        (cond
+            ((= count n) (next x y z))
+            (else (step (+ count 1) (next x y z) x y))))
+    (if (< n 3) n
+        (step 3 2 1 0)))
+
+
+
