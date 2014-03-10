@@ -327,4 +327,74 @@
                  (* 2 (ex1.11r (- n 2)))
                  (* 3 (ex1.11r (- n 3)))))))
 
+;;Exercise 1.12
+; Pascal's triangle
+;    1
+;   1 1
+;  1 2 1
+; 1 3 3 1
+; .......
+(define (pascal row col)
+    (define inTriangle?
+        (and (>= row 1) (>= col 1) (<= col row)))
+    (define edge?
+        (or (= col 1) (= col row)))
+    (cond
+        ((not inTriangle?) 0)
+        (edge? 1)
+        (else (+ (pascal (- row 1) (- col 1))
+                 (pascal (- row 1) col)))))
+
+
+;;Exercise 1.13
+; http://www.billthelizard.com/2009/12/sicp-exercise-113-fibonacci-and-golden.html
+
+;;Exercise 1.14
+; (count-change 11)
+;                                  (cc 11 5)
+;                          (cc 11 4)                     (0: cc -39 5)
+;                  (cc 11 3)        (0: cc -14 5))
+;       (cc 11 2)           (cc 1 3)
+;     (cc 11 1)  (cc 6 2) (cc 1 2)  (0: cc -9 3)
+;(0:cc 11 0)  
+; [TODO: come back to this later]
+
+
+;;Exercise 1.15
+(define (sine angle)
+  (define (cube x) (* x x x))
+  (define (p x) (- (* 3 x) (* 4 (cube x))))
+  (if (not (> (abs angle) 0.1))
+    angle
+    (p (sine (/ angle 3.0)))))
+
+; (sine 12.15)
+; = (p (sine 4.05))
+; = (p (p (sine 1.34999)))
+; = (p (p (p (sine 0.4499))))
+; = (p (p (p (p (sine .15)))))
+; = (p (p (p (p (p (sine .0499))))))
+;
+; 1.15 a) p is applied 5 times
+; 1.15 b) Number of steps and space depends on how quickly angle gets 
+;         <= 0.1. If we need to divide by angle n times:
+;
+;         angle/3^n <= 0.1
+;         angle <= 0.1 . 3^n
+;         3^n <= angle/0.1
+;         3^n <= 10 . angle
+;
+;         Log defn: x^n = y -> logx(y) = n
+;
+;         n <= log3(10.angle)
+;         n <= log3(10) + log3(angle)
+;
+;         So:
+;         O(sine(x)) = O(log(x))
+;
+;         (Natural log: logb(x) = log(x) / log(b))
+
+
+
+
 
