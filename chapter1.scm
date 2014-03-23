@@ -384,17 +384,37 @@
 ;         3^n <= angle/0.1
 ;         3^n <= 10 . angle
 ;
-;         Log defn: x^n = y -> logx(y) = n
+;         Log defn: x^n = y
+;                   logx(y) = n
 ;
-;         n <= log3(10.angle)
+;         n <= log3(10 . angle)
 ;         n <= log3(10) + log3(angle)
 ;
 ;         So:
 ;         O(sine(x)) = O(log(x))
 ;
+;         (Change base: logb(x) = logk(x) / logk(b))
 ;         (Natural log: logb(x) = log(x) / log(b))
+;
+;         Scott's note: Can change algorithm to take into account
+;         angle is [0, 2π], so upper bound can be O(log(2π)), which
+;         means a constant upper bound O(1).
 
+;1.2.4 Exponentiation
+;=====================
+;;Exercise 1.16
+; Given:
+(define (fast-expt b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))))
 
-
-
+;  b^n = (b^n/2)^2 if n is even
+;  b^n =b·b^(n-1) if n is odd.
+(define (fast-expt-i b n)
+  (define (step a bb nn)
+    (cond ((= nn 0) a)
+          ((odd? nn) (step (* a bb) bb (- nn 1)))
+          (else (step a (square bb) (/ nn 2)))))
+  (step 1 b n))
 
