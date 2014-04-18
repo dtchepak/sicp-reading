@@ -447,6 +447,9 @@
   (step 0 a b))
 
 ;; If b doubles, takes one additional step -> O(log b)
+
 ;;Exercise 1.18
 ;; As per 1.17
+
+;;Exercise 1.19
 
