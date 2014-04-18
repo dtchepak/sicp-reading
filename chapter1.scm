@@ -418,3 +418,33 @@
           (else (step a (square bb) (/ nn 2)))))
   (step 1 b n))
 
+;;Exercise 1.17
+;; if b is even:  * a b = * 2 a (/ b 2) 
+;; * 3 3 
+;; = + 3 (* 3 2)
+;; = + 3 (+ 3 (* 3 1))
+;; = + 3 (+ 3 (+ 3 (* 3 0)))
+;; Alt:
+;; = + 3 (* 3 2)
+;; = + 3 (* 6 1)
+;; = + 3 (+ 6 (* 6 0))
+;; * 3 4
+;; = (* 6 2)
+;; = (* 12 1)
+;; mult 2 6
+;; = step 0 2 6
+;; = step 0 4 3
+;; = step 4 4 2
+;; = step 4 8 1
+;; = step 12 8 0
+(define (mult a b)
+  (define (double x) (* 2 x))
+  (define (halve x) (/ x 2))
+  (define (step x aa bb)
+    (cond ((= bb 0) x)
+          ((odd? bb) (step (+ x aa) aa (- bb 1)))
+          (else (step x (double aa) (halve bb)))))
+  (step 0 a b))
+
+;; If b doubles, takes one additional step -> O(log b)
+;;Exercise 1.18
