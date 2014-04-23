@@ -452,4 +452,48 @@
 ;; As per 1.17
 
 ;;Exercise 1.19
+; Tpq (a,b)
+;   = (bq + aq + ap, bp + aq)
+; Tpq (Tpq (a,b))
+;   = ( (bp+aq)q + (bq+aq+ap)q + (bq+aq+ap)p
+;     , (bp+aq)p + (bq+aq+ap)q)
+;   = ( bpq + aq² + bq² + aq² + apq + bpq + apq + ap²
+;     , bp² + apq + bq² + aq² + apq)
+;   = ( 2bpq + 2aq² + 2apq + bq² + ap²
+;     , bp² + 2apq + bq² + aq²)
+;
+; Let x=p', y=q' cause its a bit easier to type
+; Txy (a,b) = (by + ay + ax, bx + ay)
+;           = Tpq (Tpq (a,b))
+; Take fst:
+; by + ay + ax
+;   = 2bpq + 2aq² + 2apq + bq² + ap²
+;   = b(2pq+q²) + 2aq² + 2apq + ap²
+;   = b(2pq+q²) + aq² + aq² + 2apq + ap²
+;   = b(2pq+q²) + a(2pq+q²) + a(p²+q²)
+; So y=2pq+q², x=p²+q²
+; Check snd:
+; bx + ay
+;   = bp² + 2apq + bq² + aq²    .... (1)
+; Sub for x and y:
+;   = b(p²+q²)+a(2pq+q²)
+;   = bp²+bq²+2apq+aq²
+;   = (1) as required
+(define (fibagain n)
+   (define (fib-iter a b p q count)
+     (cond ((= count 0) b)
+           ((even? count)
+            (fib-iter a
+                      b
+                      (+ (square p) (square q))
+                      (+ (* 2 p q) (square q))
+                      (/ count 2)))
+           (else (fib-iter (+ (* b q) (* a q) (* a p))
+                           (+ (* b p) (* a q))
+                           p
+                           q
+                           (- count 1)))))
+   (fib-iter 1 0 0 1 n))
+
+
 
