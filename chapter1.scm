@@ -495,5 +495,53 @@
                            (- count 1)))))
    (fib-iter 1 0 0 1 n))
 
+;1.2.5 Greatest Common Divisors
+; Euclid's algorithm:
+; GCD(a,0) = a
+; GCD(a,b) = GCD(b,r)
+;   where r = a % b
+; from text example:
+(define (gcd a b)
+      (if (= b 0)
+          a
+          (gcd b (remainder a b))))
+;; Exercise 1.20
+;
+; GCD(206, 40) normal order eval:
+; (gcd 206 40)
+; = (if (= 40 0) 206 (gcd 40 (r 206 40)))
+; = (gcd 40 (r 206 40))
+; = (if (= (r 206 40) 0) 40 (gcd (r 206 40) (r 40 (r 206 40))))
+; >> 1 r eval for the if predicate
+; = (gcd (r 206 40) (r 40 (r 206 40)))
+; = (if (= (r 40 (r 206 40)) 0)
+;       (r 206 40)
+;       (gcd (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40)))))
+; >> 2 r evals for the if preciate
+; = (gcd (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40))))
+; >> 4 r evals from b for if predicate
+; = (gcd (r (r 206 40) (r 40 (r 206 40)))
+;        (r (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40)))))
+; >> 7 r evals, now b=0
+; = (r (r 206 40) (r 40 (r 206 40)))
+; >> 4 evals
+; >> Total 1+2+4+7+4 = 18
+
+; GCD(206, 40) applicative order eval:
+; (gcd 206 40)
+; = (if (= 40 0) 206 (gcd 40 (r 206 40)))
+; >> 1 r eval for second arg of recursive gcd call
+; = (gcd 40 6) 
+; >> 1 eval
+; = (gcd 6 4)
+; >> 1 eval
+; = (gcd 4 2)
+; >> 1 eval
+; = (gcd 2 0)
+; = 2 
+; >> Total 4
+
+
+
 
 
