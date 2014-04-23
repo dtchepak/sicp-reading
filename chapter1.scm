@@ -542,6 +542,64 @@
 ; >> Total 4
 
 
+;;Exercise 1.21
+(define (smallest-divisor n) (find-divisor n 2))
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+(define (divides? a b) (= (remainder b a) 0))
+(define (prime? n)
+  (= n (smallest-divisor n)))
+
+;1 ]=> (smallest-divisor 199)
+;Value: 199
+;1 ]=> (smallest-divisor 1999)
+;Value: 1999
+;1 ]=> (smallest-divisor 19999)
+;Value: 7
+
+;;Exercise 1.22
+;;Exercise 1.23
+;;Exercise 1.24
+; Skipping timing exercises
+
+;;Exercise 1.25
+;from SICP:
+(define (expmod base exp m)
+     (cond ((= exp 0)
+            1)
+           ((even? exp)
+            (remainder
+             (square
+              (expmod base (/ exp 2) m))
+             m))
+           (else
+            (remainder
+             (* base
+                (expmod base (- exp 1) m))
+             m))))
+; compare:
+;  (define (expmod base exp m)
+;      (remainder (fast-expt base exp) m))
+;  (define (fast-expt b n)
+;      (cond ((= n 0) 1)
+;        ((even? n) (square (fast-expt b (/ n 2))))
+;        (else (* b (fast-expt b (- n 1))))))
+; fast-expt works out full exp, then takes remainder.
+; expmod takes mod at each step so never deals with huge numbers.
+;
+; http://www.billthelizard.com/2010/02/sicp-exercise-125-closer-look-at-expmod.html
+
+;;Exercise 1.26
+; Was O(log n), now each iteration produces another 2 calcs. Tree recurive
+; So get O(log (2^n)) = O(n)
+
+;Exercise 1.27
+; skipped
+
+;Exercise 1.28
+; skipped
 
 
 
