@@ -601,5 +601,41 @@
 ;Exercise 1.28
 ; skipped
 
+; 1.3 Abstractions and higher-order procs
+; ==================
 
+;;Exercise 1.29 Simpson's Rule
+(define (sigma term next a b)
+  (if (> a b)
+      0
+      (+ (term a) (sigma term next (next a) b))))
+
+(define (inc n) (+ 1 n))
+
+(define (simpsons f a b n)
+  (define h (/ (- b a) n))
+  (define (y k) (f (+ a (* k h))))
+  (define (coeff k)
+     (cond ((= k 0) 1)
+           ((= k n) 1)
+           ((even? k) 2)
+           (else 4)))
+  (define (term k) (* (coeff k) (y k)))
+  (* (/ h 3.0)
+     (sigma term inc 0 n)))
+
+(define (cube x) (* x x x))
+
+;=> (simpsons cube 0 1 100.0)
+;Value: .24999999999999992
+;=> (simpsons cube 0 1 1000.0) 
+;Value: .2500000000000003
+
+;;Exercise 1.30
+(define (sigma2 term next a b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
 
