@@ -639,3 +639,34 @@
         (iter (next a) (+ result (term a)))))
   (iter a 0))
 
+;;Exercise 1.31
+;;Exercise 1.32 (done together)
+;;a
+(define (accumulate f zero term next a b)
+  (if (> a b)
+        zero
+        (f (term a) (accumulate f zero term next (next a) b))))
+
+(define (id x) x)
+
+(define (product term next a b)
+  (accumulate * 1 term next a b))
+(define (factorial n) (product id inc 1 n))
+
+(define (wallis-pi x)
+  (define (term n) (if (even? n) (+ n 2) (+ n 1)))
+  (define (bottomterm n) (- (term (+ n 1)) 1))
+  (* 4.0
+     (/ (product term inc 1 x)
+        (product bottomterm inc 1 x))))
+;;b
+(define (accumulate-i f zero term next a b)
+  (define (step acc a b)
+    (if (> a b)
+        acc
+        (step (f acc (term a)) (next a) b)))
+  (step zero a b))
+(define (product-i term next a b)
+  (accumulate-i * 1 term next a b))
+
+
