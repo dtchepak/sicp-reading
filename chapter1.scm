@@ -550,7 +550,9 @@
         (else (find-divisor n (+ test-divisor 1)))))
 (define (divides? a b) (= (remainder b a) 0))
 (define (prime? n)
-  (= n (smallest-divisor n)))
+  (if (<= n 1)
+      #f
+      (= n (smallest-divisor n))))
 
 ;1 ]=> (smallest-divisor 199)
 ;Value: 199
@@ -669,4 +671,17 @@
 (define (product-i term next a b)
   (accumulate-i * 1 term next a b))
 
+;;Exercise 1.33
+(define (filtered-accumulate pred f zero term next a b)
+  (define (step acc a b)
+    (define (combine-if-pred x)
+      (if (pred x) (f acc x) acc))
+    (if (> a b)
+      acc
+      (step (combine-if-pred (term a)) (next a) b)))
+  (step zero a b))
+;;a
+(define (ex1.33.a a b)
+  (filtered-accumulate prime? + 0 id inc a b))
+;;b
 
