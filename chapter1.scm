@@ -684,4 +684,7 @@
 (define (ex1.33.a a b)
   (filtered-accumulate prime? + 0 id inc a b))
 ;;b
-
+(define (ex1.33.b n)
+  (define (relatively-prime i)
+    (= 1 (gcd i n)))
+  (filtered-accumulate relatively-prime * 1 id inc 1 n))
