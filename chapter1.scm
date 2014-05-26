@@ -688,3 +688,38 @@
   (define (relatively-prime i)
     (= 1 (gcd i n)))
   (filtered-accumulate relatively-prime * 1 id inc 1 n))
+
+;1.3.2 Constructing Procedures Using Lambda
+;===========================================
+; Lambda special form: (lambda (x) (+ x 4))
+; (lambda (<formal-parameters>) <body>)
+; Same as for `define`, but no name given
+;
+; For intermediate values (variables outside of formal parameters):
+; (let ((<var1> <exp1>)
+;       (<var2> <exp2>)
+;       ...
+;       (<varn> <expn>))
+;   <body>)
+;
+; Syntactic sugar for using lambda to bind variables:
+; ((lambda (<var1> .. <varn>)
+;       <body>)
+;   <exp1>
+;   ...
+;   <expn>)
+; Using `let` over `define` seems matter of preference? ("We prefer...")
+
+;;Exercise 1.34
+;; (define (f g) (g 2))
+;; So (f square) gives 4
+;; (f (lambda (z) (* z (+ z 1)))) gives 6
+;; What is (f f)?
+;; Substitution:
+;;  (f f)
+;;= (f (f 2))
+;;= (f (2 2)) Invalid? Can't apply 2 to 2
+
+;1.3.3 Procedures as General Methods
+
+
