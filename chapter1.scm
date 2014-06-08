@@ -722,4 +722,63 @@
 
 ;1.3.3 Procedures as General Methods
 
+; Fixed points: f(x) = x
+; - can find using f(f(f(f(..(f(x) ...))))) until the result is x
+; - this can diverge. Use *average_damping*.
+; e.g. sqrt(x):  y -> x/y
+; Diverges: (define (sqrt x) (fixed-point (lambda (y) (/ x y)) 1.0))
+; y -> x/y = y -> 1/2 (y + x/y)  (add y to both sides & divide by 2)
+; (define (sqrt x) (fixed-point (lambda (y) (average y (/ x y))) 1.0))
+; Now converges.
+
+(define (fixed-point f first-guess)
+    (define tolerance 0.00001)
+    (define (close-enough? x1 x2)
+      (< (abs (- x2 x1))
+         tolerance))
+    (define (try guess)
+      (let ((next (f guess)))
+        (if (close-enough? guess next)
+            next
+            (try next))))
+    (try first-guess))
+
+;;Exercise 1.35 golden ratio fixed point
+;; golden ratio: phi^2 -> phi + 1  (phi = 1+sqrt(5)/2 ~ 1.6180)
+; phi^2 = phi + 1
+; phi = 1 + 1/phi  (divide by phi)
+; So x = fixed pt of: f(x) = 1 + 1/x
+(fixed-point (lambda (x) (+ 1 (/ 1 x))) 1.0)
+;Value: 1.6180327868852458
+
+;;Exercise 1.36
+(define (fixed-point-mod f first-guess)
+    (define tolerance 0.00001)
+    (define (close-enough? x1 x2)
+      (< (abs (- x2 x1))
+         tolerance))
+    (define (try guess)
+      (let ((next (f guess)))
+        (display next) (newline)
+        (if (close-enough? guess next)
+            next
+            (try next))))
+    (try first-guess))
+
+;; Find solution to: x^x = 1000 (x -> log(1000)/log(x))
+(define (ex1.36)
+  (fixed-point-mod (lambda (x) (/ (log 1000) (log x))) 1.1))
+
+;; x -> log(1000) / log(x)
+;; 2x -> x + (log(1000)/log(x))
+;; x -> x/2 + (log(1000)/log(x))/2
+;;
+;; Without `average` proc:
+;; (fixed-point-mod (lambda (x) (/ (+ x (/ (log 1000) (log x))) 2)) 1.1))
+(define (ex1.36-damped)
+  (fixed-point-mod (lambda (x) (average x (/ (log 1000) (log x)))) 1.1))
+
+; damped = 13 steps from 1.1, non-damped = 37
+
+;;Exercise 1.37
 
