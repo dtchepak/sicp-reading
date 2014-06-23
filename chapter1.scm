@@ -781,4 +781,35 @@
 ; damped = 13 steps from 1.1, non-damped = 37
 
 ;;Exercise 1.37
+;;1.37a
+(define (cont-frac n d k)
+  (define (step i)
+      (if (>= i k)
+          (/ (n i) (d i))
+          (/ (n i) (+ (d i) (step (+ i 1))))))
+  (step 1))
+
+; expecting 1/phi = 1/1.6180 = 0.6180
+(define (run-cont-example k)
+  (cont-frac (lambda (i) 1.0) (lambda (i) 1.0) k))
+
+; Need k = 11 to get .6180
+;;1.37b
+(define (cont-frac-i n d k)
+  (define (step i acc)
+    (if (<= i 0)
+      acc
+      (step (- i 1) (/ (n i) (+ (d i) acc)))))
+  (step k 0.0))
+
+(define (run-cont-example-i k)
+  (cont-frac-i (lambda (i) 1.0) (lambda (i) 1.0) k))
+
+; From ScottS: sometimes converting to iterative, it is easier
+; to start backwards (from k down to 1), than build up solution forwards (1..k)
+; Scott's steps for 1.37b:
+; termk = (/ nk dk)
+; term(k-1) = (/ n(k-1) (+ d(k-1) termk))
+; so (f k acc) = (f (k-1) (/ (n k) (+ (d k) acc)))
+
 
