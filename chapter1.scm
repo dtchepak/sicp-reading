@@ -823,3 +823,10 @@
         1))
   (+ 2 (cont-frac-i (lambda (i) 1.0) d x)))
 
+;;Exercise 1.39
+; N(i) = x for i=1, x^2 otherwise
+; D(i) = 2i-1
+(define (tan-cf x k)
+  (cont-frac-i (lambda (i) (if (= i 1) x (- (square x))))
+               (lambda (i) (- (* 2 i) 1))
+               k))
