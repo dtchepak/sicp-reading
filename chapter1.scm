@@ -812,4 +812,14 @@
 ; term(k-1) = (/ n(k-1) (+ d(k-1) termk))
 ; so (f k acc) = (f (k-1) (/ (n k) (+ (d k) acc)))
 
+;;Exercise 1.38
+; Ni = const 1
+; Di are: 1, 2, 1, 1, 4, 1, 1, 6, ...
+; Di, number occurs every 2nd mod 3
+(define (ex1.38 x)
+  (define (d i)
+    (if (= 2 (modulo i 3))
+        (* 2 (+ 1 (quotient i 3)))
+        1))
+  (+ 2 (cont-frac-i (lambda (i) 1.0) d x)))
 
