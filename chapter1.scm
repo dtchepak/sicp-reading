@@ -855,5 +855,6 @@
 ;;Exercise 1.42
 (define (double f)
   (lambda (x) (f (f x))))
+; trace: (((double (double double)) inc) 5)
 
 
