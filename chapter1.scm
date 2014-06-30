@@ -830,3 +830,27 @@
   (cont-frac-i (lambda (i) (if (= i 1) x (- (square x))))
                (lambda (i) (- (* 2 i) 1))
                k))
+
+;;Exercise 1.40
+(define (deriv g)
+  (lambda (x) (/ (- (g (+ x dx)) (g x)) dx)))
+(define dx 0.00001)
+(define (newtons-transform g)
+  (lambda (x) (- x (/ (g x) ((deriv g) x)))))
+(define (newtons-method g guess)
+  (fixed-point (newtons-transform g) guess))
+; (define (sqrt x) (newtons-method (lambda (y) (- (square y) x)) 1.0))
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+; (define (sqrt x)
+;   (fixed-point-of-transform
+;     (lambda (y) (/ x y)) average-damp 1.0))
+
+; cubic: x^3 + ax^2 + bx + c
+(define (cubic a b c)
+  (lambda (x) (+ (* x x x) (* a (square x)) (* b x) c)))
+(define (cubic-zeros a b c)
+  (newtons-method (cubic a b c) 1))
+
+
+
