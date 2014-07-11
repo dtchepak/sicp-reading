@@ -852,7 +852,7 @@
 (define (cubic-zeros a b c)
   (newtons-method (cubic a b c) 1))
 
-;;Exercise 1.42
+;;Exercise 1.41
 (define (double f)
   (lambda (x) (f (f x))))
 ; trace: (((double (double double)) inc) 5)
