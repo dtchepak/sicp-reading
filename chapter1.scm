@@ -880,5 +880,31 @@
 ; And final double gives 16.
 ; So (this 5) = (+ 16 5) = 21
 
+; Attempt 2
+; ==========
+; double f = \x -> f (f x)
+;          = f . f
+; double double          = double . double
+; double (double double)
+;   = (double . double) . (double . double)
+;   = double . double . double . double
+;   = \x -> (double . double . double . double) x
+; (double (double double)) inc
+;   = (double . double . double . double) inc
+;   = (double . double . double) (double inc)
+;   = (double . double . double) (inc . inc)
+;   = (double . double) (double (inc . inc))
+;   = (double . double) (inc . inc . inc . inc)
+;   = (double) (inc . inc . inc . inc . inc . inc . inc . inc)
+; inc . inc = \x -> inc (inc x) = \x -> 1+ (1+x) = (2+)
+;   = double (8+)
+;   = \x -> 8+ (8+x)
+;   = \x -> 16+x
+;   = (16+)
+; (16+) 5 = 21
+
+; Aside: show composition is associative
+
+;;Exercise 1.42
 
 
