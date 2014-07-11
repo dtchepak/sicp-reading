@@ -855,6 +855,30 @@
 ;;Exercise 1.41
 (define (double f)
   (lambda (x) (f (f x))))
+
 ; trace: (((double (double double)) inc) 5)
+; (double double)
+; = lambda (x) (double (double x))
+; (double (double double))
+; = lambda (x) ( (double double) ((double double) x))
+; = lambda (x) ( (lambda (x') (double (double x')))
+;                  ((lambda (x') (double (double x'))) x) )
+; = lambda (x) ( (lambda (x') (double (double x')))
+;                  ((double (double x))) )
+; = lambda (x) ( double (double (double (double x))) )
+; Apply this to `inc`:
+; = (double (double (double (double inc))))
+; = (double (double (double (lambda (x) (inc (inc x))))))
+; let f = lambda (x) (inc (inc x))
+; = (double (double (lambda (x') (f (f x')))))
+; by defn: f x' = inc (inc x')
+; = (double (double (lambda (x') (f (inc (inc x'))))))
+; by f: (f' (inc (inc x'))) = (inc (inc (inc (inc x'))))
+; = (double (double (lambda (x') (inc (inc (inc (inc x')))))))
+; So (double (double inc)) gives 4 calls to inc.
+; doubling this again gives 8.
+; And final double gives 16.
+; So (this 5) = (+ 16 5) = 21
+
 
 
