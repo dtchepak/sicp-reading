@@ -904,6 +904,14 @@
 ; (16+) 5 = 21
 
 ; Aside: show composition is associative
+; f . g = \x -> f (g x)
+; a . (b . c) = \x -> a ( (b.c) x)
+;             = \x -> a ( (\x' -> b (c x')) x)
+;             = \x -> a ( b (c x) )
+;             = \x -> (a . b) (c x)
+;             = \x -> ((a . b) . c) x
+;             = (a . b) . c
+; Therefore associative
 
 ;;Exercise 1.42
 
