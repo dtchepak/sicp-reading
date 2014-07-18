@@ -934,3 +934,16 @@
   (accumulate compose id (const f) inc 1 n))
 
 ;;Exercise 1.44
+(define (smooth f)
+  (define (avg3 a b c) (/ (+ a b c) 3))
+  (let ((dx 0.00001))
+    (lambda (x) (avg3 (f (- x dx)) (f x) (f (+ x dx))))))
+
+(define (n-fold-smooth f n)
+  ((repeated smooth n) f))
+
+;;Exercise 1.45
+
+
+
+
