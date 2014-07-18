@@ -914,5 +914,23 @@
 ; Therefore associative
 
 ;;Exercise 1.42
+(define (compose f g) (lambda (x) (f (g x))))
 
+;;Exercise 1.43
+; f is numerical fn, n is +ve integer
+; nth repeated application of f, whose value at x is f(f(...(f(x))...).
+; e.g. f x -> x+1, nth f is  fn x -> x+n
+; ((repeated square 2) 5) = 625
+(define (repeated f n)
+  (cond ((<= n 0) id)
+        ((= n 1) f)
+        (else (compose f (repeated f (- n 1))))))
 
+(define (const a) (lambda (x) a))
+
+; Another attempt, reusing accumulate
+; (define (accumulate f zero term next a b)
+(define (repeatedA f n)
+  (accumulate compose id (const f) inc 1 n))
+
+;;Exercise 1.44
