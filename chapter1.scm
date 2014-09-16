@@ -944,6 +944,22 @@
 
 ;;Exercise 1.45
 
+;;Exercise 1.46
+(define (iterative-improve good-enough? imprv)
+    (define (try guess)
+      (if (good-enough? guess)
+        guess
+        (try (imprv guess)))
+    ) try)
 
+(define (sqrt-146 x)
+  ((iterative-improve
+     (lambda (guess) (good-enough? guess x))
+     (lambda (guess) (improve guess x))) x))
 
-
+(define (fixed-point-146 f first-guess)
+    (define tolerance 0.00001)
+    (define (close-enough? guess)
+      (< (abs (- guess (f guess)))
+         tolerance))
+    ((iterative-improve close-enough? f) first-guess))
